@@ -6,18 +6,13 @@ pipeline {
         SSH_KEY_ID = 'apache-ssh-key'
         WEB_ROOT = '/var/www/html/webroot/ROOT' // Adjust if different
     }
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-        stage('Deploy HTML') {
-            steps {
-                sshagent(credentials: [env.SSH_KEY_ID]) {
-                    sh """
-                    scp -o StrictHostKeyChecking=no index.html ${REMOTE_USER}@${REMOTE_HOST}:${WEB_ROOT}/index.html
-                    """
+       pipeline {
+        agent any
+    
+        stages {
+            stage('Clone Repository') {
+                steps {
+                    checkout scm
                 }
             }
         }
