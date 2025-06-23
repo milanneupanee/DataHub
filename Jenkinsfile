@@ -15,6 +15,9 @@ pipeline {
                     checkout scm
                 }
             }
+            stage('add dir'){
+                mkdir -p milan
+            }
         }
     }
 }
