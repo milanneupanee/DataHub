@@ -19,5 +19,11 @@ pipeline {
                 '''
             }
         }
+        stage('Debug workspace') {
+            steps {
+                sh 'pwd'
+                sh 'ls -la'
+            }
+        }
     }
 }
