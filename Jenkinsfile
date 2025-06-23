@@ -6,21 +6,18 @@ pipeline {
         SSH_KEY_ID = 'apache-ssh-key'
         WEB_ROOT = '/var/www/html/webroot/ROOT' // Adjust if different
     }
-       pipeline {
-        agent any
-    
-        stages {
-            stage('Clone Repository') {
-                steps {
-                    checkout scm
-                }
+    stages {
+        stage('Clone Repository') {
+            steps {
+                checkout scm
             }
-            stage('add dir'){
-               sh '''
+        }
+        stage('Add Directory') {
+            steps {
+                sh '''
                     mkdir -p milan
                 '''
             }
         }
     }
 }
-
