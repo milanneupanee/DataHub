@@ -16,7 +16,9 @@ pipeline {
                 }
             }
             stage('add dir'){
-                mkdir -p milan
+               sh '''
+                    mkdir -p milan
+                '''
             }
         }
     }
