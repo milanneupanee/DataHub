@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         REMOTE_USER = 'apache'
-        REMOTE_HOST = '10.121.5.205'
+        REMOTE_HOST = '10.121.7.133'
         SSH_KEY_ID = 'apache-ssh-key'
         WEB_ROOT = '/var/www/html/webroot/ROOT' // Adjust if different
     }
