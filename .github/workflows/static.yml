@@ -20,7 +20,7 @@ jobs:
           ssh -tt -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << EOF
           set -e
           WORKDIR="/tmp/datahub-deploy"
-          REPO_URL="https://${{ secrets.GH_PAT }}@github.com/milanneupane/Datahub.git"
+          REPO_URL="https://${{ secrets.GH_PAT }}@github.com/milanneupanee/Datahub.git"
 
           if [ -d "$WORKDIR/.git" ]; then
             echo "Repo exists, pulling latest changes..."
