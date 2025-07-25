@@ -21,7 +21,7 @@ jobs:
           set -e
 
           WORKDIR="/tmp/datahub-deploy"
-          REPO_URL="https://github.com/milanneupane/Datahub.git"
+          REPO_URL="git@github.com:milanneupane/Datahub.git"
 
           # If repo exists, pull latest changes; otherwise clone it
           if [ -d "$WORKDIR/.git" ]; then
