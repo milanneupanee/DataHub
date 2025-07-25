@@ -17,24 +17,24 @@ jobs:
 
       - name: SSH and deploy
         run: |
-          ssh -tt -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << EOF
-          set -e
-          WORKDIR="/tmp/datahub-deploy"
-          REPO_URL="https://${{ secrets.GH_PAT }}@github.com/milanneupanee/Datahub.git"
+          ssh -tt -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
+            set -e
+            WORKDIR="/tmp/datahub-deploy"
+            REPO_URL="https://${{ secrets.GH_PAT }}@github.com/milanneupanee/Datahub.git"
 
-          if [ -d "$WORKDIR/.git" ]; then
-            echo "Repo exists, pulling latest changes..."
-            cd "$WORKDIR"
-            git reset --hard
-            git clean -fd
-            git pull origin main
-          else
-            echo "Cloning fresh repo..."
-            rm -rf "$WORKDIR"
-            git clone "$REPO_URL" "$WORKDIR"
-          fi
+            if [ -d "$WORKDIR/.git" ]; then
+              echo "Repo exists, pulling latest changes..."
+              cd "$WORKDIR"
+              git reset --hard
+              git clean -fd
+              git pull origin main
+            else
+              echo "Cloning fresh repo..."
+              rm -rf "$WORKDIR"
+              git clone "$REPO_URL" "$WORKDIR"
+            fi
 
-          sudo cp -f "$WORKDIR/index.html" /var/www/html/index.html
-          sudo systemctl restart apache2
+            sudo cp -f "$WORKDIR/index.html" /var/www/html/index.html
+            sudo systemctl restart apache2
           EOF
 
