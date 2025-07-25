@@ -1,4 +1,4 @@
-name: Deploy Static HTML to Remote VM
+name: Deploy via Git Pull on VM
 
 on:
   push:
@@ -10,30 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-
     - name: Setup SSH Agent
       uses: webfactory/ssh-agent@v0.5.4
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Copy files to remote server (to temp folder)
-      run: |
-        rsync -avz --delete \
-          -e "ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no" \
-          ./ \
-          ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/tmp/deploy-temp/
-
-    - name: Move files to /var/www/html with sudo
+    - name: SSH and Pull Latest Code
       run: |
         ssh -tt -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no \
-        ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} \
-        "sudo rsync -av --delete /tmp/deploy-temp/ /var/www/html/ && sudo rm -rf /tmp/deploy-temp"
-
-    - name: Restart Apache2
-      run: |
-        ssh -tt -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no \
-        ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} \
-        "sudo -n systemctl restart apache2"
+        ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
+          cd /var/www/html
+          sudo git pull origin main
+          sudo systemctl restart apache2
+        EOF
 
