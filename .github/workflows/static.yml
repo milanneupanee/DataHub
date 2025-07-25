@@ -29,5 +29,5 @@ jobs:
       run: |
         ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no \
         ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} \
-        "sudo systemctl restart apache2"
+        "sudo -n systemctl restart apache2"
 
